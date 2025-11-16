@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Filter, X, Grid, List, ChevronDown } from 'lucide-react';
+import { Filter, X } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styling/Men.css';
