@@ -1,41 +1,31 @@
 
 import { useState } from 'react';
-import { Filter, X } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styling/Women.css';
 import '../styling/home.css';
 
 const products = [
-  { id: 1, name: 'Classic Crewneck T-Shirt', price: '$25', image: '/src/assets/products/img1.jpg' },
-  { id: 2, name: 'Slim-Fit Chinos', price: '$60', image: '/src/assets/products/img2.jpg' },
-  { id: 3, name: 'Vintage Denim Jacket', price: '$120', image: '/src/assets/products/img3.jpg' },
-  { id: 4, name: 'Leather Derby Shoes', price: '$150', image: '/src/assets/products/img4.jpg' },
-  { id: 5, name: 'Knit Beanie', price: '$20', image: '/src/assets/products/img5.jpg' },
-  { id: 6, name: 'Wool-Cashmere Blend Scarf', price: '$75', image: '/src/assets/products/img6.jpg' },
-  { id: 7, name: 'Long-Sleeve Henley', price: '$45', image: '/src/assets/products/img7.jpg' },
-  { id: 8, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 9, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 10, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 11, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 12, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 13, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 14, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 15, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 16, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 17, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 18, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 19, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 20, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
+  { id: 1, name: 'Elegant Floral Blouse', price: '$75', image: '/src/assets/products/women1.jpg' },
+  { id: 2, name: 'High-Waisted Skinny Jeans', price: '$90', image: '/src/assets/products/women2.jpg' },
+  { id: 3, name: 'Cashmere Knit Sweater', price: '$180', image: '/src/assets/products/women3.jpg' },
+  { id: 4, name: 'Suede Ankle Boots', price: '$220', image: '/src/assets/products/women4.jpg' },
+  { id: 5, name: 'Leather Tote Bag', price: '$150', image: '/src/assets/products/women5.jpg' },
+  { id: 6, name: 'Silk Neck Scarf', price: '$45', image: '/src/assets/products/women6.jpg' },
+  { id: 7, name: 'Tailored Wool Coat', price: '$350', image: '/src/assets/products/women7.jpg' },
+  { id: 8, name: 'A-Line Midi Skirt', price: '$110', image: '/src/assets/products/women8.jpg' },
+  { id: 9, name: 'Classic Trench Coat', price: '$280', image: '/src/assets/products/women9.jpg' },
+  { id: 10, name: 'Lace Bodycon Dress', price: '$190', image: '/src/assets/products/women10.jpg' },
+  { id: 11, name: 'Wide-Leg Trousers', price: '$130', image: '/src/assets/products/women11.jpg' },
+  { id: 12, name: 'Platform Espadrilles', price: '$160', image: '/src/assets/products/women12.jpg' },
 ];
 
 const Women = () => {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
 
-  const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
@@ -60,31 +50,26 @@ const Women = () => {
       <section className="page-hero-section">
         <div className="page-hero-content">
           <h1 className="page-hero-title">Women's Collection</h1>
-          <p className="page-hero-subtitle">Explore premium men's fashion and style</p>
+          <p className="page-hero-subtitle">Discover timeless elegance and contemporary style</p>
         </div>
       </section>
 
-      <div className="men-container">
+      <div className="women-container">
         <aside className={`filter-sidebar ${isFilterOpen ? 'open' : ''}`}>
-          <div className="filter-header">
-            <h3>Filters</h3>
-            <button onClick={toggleFilter} className="close-filter-btn">
-              <X size={24} />
-            </button>
-          </div>
-
+          <h3>Filters</h3>
           <div className="filter-group">
             <h4>Category</h4>
             <div className="filter-options">
-              {['T-Shirts', 'Chinos', 'Jackets', 'Shoes', 'Accessories'].map(category => (
-                <label key={category}>
+              {['Dresses', 'Tops', 'Jeans', 'Outerwear', 'Shoes', 'Accessories'].map(category => (
+                <div key={category} className="option">
                   <input
                     type="checkbox"
+                    id={category}
                     checked={selectedCategories.includes(category)}
                     onChange={() => toggleCategory(category)}
                   />
-                  {category}
-                </label>
+                  <label htmlFor={category}>{category}</label>
+                </div>
               ))}
             </div>
           </div>
@@ -92,15 +77,16 @@ const Women = () => {
           <div className="filter-group">
             <h4>Size</h4>
             <div className="filter-options">
-              {['S', 'M', 'L', 'XL'].map(size => (
-                <label key={size}>
+              {['XS', 'S', 'M', 'L', 'XL'].map(size => (
+                <div key={size} className="option">
                   <input
                     type="checkbox"
+                    id={size}
                     checked={selectedSizes.includes(size)}
                     onChange={() => toggleSize(size)}
                   />
-                  {size}
-                </label>
+                  <label htmlFor={size}>{size}</label>
+                </div>
               ))}
             </div>
           </div>
@@ -120,11 +106,7 @@ const Women = () => {
 
         <main className="product-grid-container">
           <div className="product-grid-header">
-            <button onClick={toggleFilter} className="open-filter-btn">
-              <Filter size={20} />
-              <span>Filters</span>
-            </button>
-
+            <h2>Timeless Pieces</h2>
             <div className="sort-options">
               <select>
                 <option>Sort by: Featured</option>
@@ -138,11 +120,14 @@ const Women = () => {
           <div className="product-grid">
             {products.map(product => (
               <div key={product.id} className="product-card">
-                <img src={product.image} alt={product.name} className="product-image" />
+                <div className="product-image-container">
+                  <img src={product.image} alt={product.name} className="product-image" />
+                </div>
                 <div className="product-info">
                   <h5>{product.name}</h5>
                   <p>{product.price}</p>
                 </div>
+                <button className="quick-view-btn">Quick View</button>
               </div>
             ))}
           </div>
