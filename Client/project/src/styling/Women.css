@@ -1,0 +1,213 @@
+/* ===== Google Fonts Import ===== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@400;700&display=swap');
+
+/* ===== CSS Variables ===== */
+:root {
+    --primary-color: #8D6E63; /* A warm, earthy brown */
+    --secondary-color: #F8BBD0; /* A soft, blush pink */
+    --accent-color: #D32F2F; /* A classic, elegant red */
+    --background-color: #FDFEFE;
+    --surface-color: #FFFFFF;
+    --text-color: #5D4037; /* A darker shade of the primary color for text */
+    --light-gray-color: #F5F5F5;
+    --font-family-headings: 'Playfair Display', serif;
+    --font-family-body: 'Lato', sans-serif;
+}
+
+/* ===== General Styling ===== */
+body {
+    font-family: var(--font-family-body);
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.women-container {
+    display: flex;
+    background-color: var(--background-color);
+}
+
+/* ===== Filter Sidebar ===== */
+.filter-sidebar {
+    width: 280px;
+    padding: 2rem;
+    background-color: var(--surface-color);
+    border-right: 1px solid var(--light-gray-color);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.filter-sidebar h3 {
+    font-family: var(--font-family-headings);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.filter-group {
+    margin-bottom: 2.5rem;
+}
+
+.filter-group h4 {
+    font-family: var(--font-family-headings);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.filter-options .option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.filter-options .option input {
+    margin-right: 0.75rem;
+}
+
+.filter-options label {
+    font-size: 1rem;
+    color: var(--text-color);
+    transition: color 0.3s;
+}
+
+.filter-options .option:hover label {
+    color: var(--primary-color);
+}
+
+/* ===== Product Grid ===== */
+.product-grid-container {
+    flex: 1;
+    padding: 2rem;
+}
+
+.product-grid-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.product-grid-header h2 {
+    font-family: var(--font-family-headings);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* ===== Product Card Styling ===== */
+.product-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--light-gray-color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.product-image-container {
+    overflow: hidden;
+}
+
+.product-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.product-info h5 {
+    font-family: var(--font-family-headings);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--primary-color);
+}
+
+.product-info p {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    font-weight: 400;
+}
+
+.quick-view-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--primary-color);
+    border-radius: 25px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s, bottom 0.3s;
+    font-weight: 700;
+}
+
+.product-card:hover .quick-view-btn {
+    opacity: 1;
+    bottom: 30px;
+}
+
+.quick-view-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--surface-color);
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 992px) {
+    .filter-sidebar {
+        width: 240px;
+    }
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .women-container {
+        flex-direction: column;
+    }
+    .filter-sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--light-gray-color);
+    }
+    .product-grid-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .product-grid-header h2 {
+        font-size: 2rem;
+    }
+}

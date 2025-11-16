@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Filter, X } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import '../styling/Men.css';
+import '../styling/Women.css';
 import '../styling/home.css';
 
 const products = [
