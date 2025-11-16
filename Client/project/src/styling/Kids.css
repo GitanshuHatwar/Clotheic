@@ -1,0 +1,211 @@
+/* ===== Google Fonts Import ===== */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap');
+
+/* ===== CSS Variables ===== */
+:root {
+    --primary-color: #FFC107; /* A bright, sunny yellow */
+    --secondary-color: #4CAF50; /* A playful green */
+    --accent-color: #F44336; /* A vibrant red */
+    --background-color: #F0F8FF; /* A very light, sky blue */
+    --surface-color: #FFFFFF;
+    --text-color: #5D4037; /* A friendly, dark brown */
+    --font-family-headings: 'Fredoka One', cursive;
+    --font-family-body: 'Nunito', sans-serif;
+}
+
+/* ===== General Styling ===== */
+body {
+    font-family: var(--font-family-body);
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.kids-container {
+    display: flex;
+    background-color: var(--background-color);
+}
+
+/* ===== Filter Sidebar ===== */
+.filter-sidebar {
+    width: 280px;
+    padding: 2rem;
+    background-color: var(--surface-color);
+    border-right: 2px dashed var(--primary-color);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.filter-sidebar h3 {
+    font-family: var(--font-family-headings);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+    text-align: center;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.filter-group {
+    margin-bottom: 2.5rem;
+}
+
+.filter-group h4 {
+    font-family: var(--font-family-headings);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+}
+
+.filter-options .option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.filter-options .option input {
+    margin-right: 0.75rem;
+}
+
+.filter-options label {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    transition: color 0.3s;
+    font-weight: 600;
+}
+
+.filter-options .option:hover label {
+    color: var(--accent-color);
+}
+
+/* ===== Product Grid ===== */
+.product-grid-container {
+    flex: 1;
+    padding: 2rem;
+}
+
+.product-grid-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.product-grid-header h2 {
+    font-family: var(--font-family-headings);
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+/* ===== Product Card Styling ===== */
+.product-card {
+    background-color: var(--surface-color);
+    border: 2px solid var(--light-gray-color);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-10px) rotate(2deg);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.product-image-container {
+    overflow: hidden;
+}
+
+.product-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.1);
+}
+
+.product-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.product-info h5 {
+    font-family: var(--font-family-headings);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+.product-info p {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    font-weight: 700;
+}
+
+.add-to-cart-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s, bottom 0.3s;
+    font-weight: 700;
+    font-family: var(--font-family-headings);
+}
+
+.product-card:hover .add-to-cart-btn {
+    opacity: 1;
+    bottom: 30px;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 992px) {
+    .filter-sidebar {
+        width: 240px;
+    }
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .kids-container {
+        flex-direction: column;
+    }
+    .filter-sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 2px dashed var(--primary-color);
+    }
+    .product-grid-header {
+        flex-direction: column;
+        align-items: center;
+    }
+    .product-grid-header h2 {
+        font-size: 2.2rem;
+    }
+}
