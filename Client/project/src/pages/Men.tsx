@@ -1,10 +1,8 @@
 
 import { useState } from 'react';
-import { Filter, X } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styling/Men.css';
-import '../styling/home.css';
 
 const products = [
   { id: 1, name: 'Classic Crewneck T-Shirt', price: '$25', image: '/src/assets/products/img1.jpg' },
@@ -30,12 +28,11 @@ const products = [
 ];
 
 const Men = () => {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
 
-  const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
@@ -56,35 +53,22 @@ const Men = () => {
   return (
     <div className="home-container loaded">
       <Header />
-      
-      <section className="page-hero-section">
-        <div className="page-hero-content">
-          <h1 className="page-hero-title">Men's Collection</h1>
-          <p className="page-hero-subtitle">Explore premium men's fashion and style</p>
-        </div>
-      </section>
-
       <div className="men-container">
         <aside className={`filter-sidebar ${isFilterOpen ? 'open' : ''}`}>
-          <div className="filter-header">
-            <h3>Filters</h3>
-            <button onClick={toggleFilter} className="close-filter-btn">
-              <X size={24} />
-            </button>
-          </div>
-
+          <h3>Filters</h3>
           <div className="filter-group">
             <h4>Category</h4>
             <div className="filter-options">
               {['T-Shirts', 'Chinos', 'Jackets', 'Shoes', 'Accessories'].map(category => (
-                <label key={category}>
+                <div key={category} className="option">
                   <input
                     type="checkbox"
+                    id={category}
                     checked={selectedCategories.includes(category)}
                     onChange={() => toggleCategory(category)}
                   />
-                  {category}
-                </label>
+                  <label htmlFor={category}>{category}</label>
+                </div>
               ))}
             </div>
           </div>
@@ -93,14 +77,15 @@ const Men = () => {
             <h4>Size</h4>
             <div className="filter-options">
               {['S', 'M', 'L', 'XL'].map(size => (
-                <label key={size}>
+                <div key={size} className="option">
                   <input
                     type="checkbox"
+                    id={size}
                     checked={selectedSizes.includes(size)}
                     onChange={() => toggleSize(size)}
                   />
-                  {size}
-                </label>
+                  <label htmlFor={size}>{size}</label>
+                </div>
               ))}
             </div>
           </div>
@@ -120,11 +105,7 @@ const Men = () => {
 
         <main className="product-grid-container">
           <div className="product-grid-header">
-            <button onClick={toggleFilter} className="open-filter-btn">
-              <Filter size={20} />
-              <span>Filters</span>
-            </button>
-
+            <h2>Men's Collection</h2>
             <div className="sort-options">
               <select>
                 <option>Sort by: Featured</option>
@@ -138,11 +119,14 @@ const Men = () => {
           <div className="product-grid">
             {products.map(product => (
               <div key={product.id} className="product-card">
-                <img src={product.image} alt={product.name} className="product-image" />
+                <div className="product-image-container">
+                  <img src={product.image} alt={product.name} className="product-image" />
+                </div>
                 <div className="product-info">
                   <h5>{product.name}</h5>
                   <p>{product.price}</p>
                 </div>
+                <button className="add-to-cart-btn">Add to Cart</button>
               </div>
             ))}
           </div>
