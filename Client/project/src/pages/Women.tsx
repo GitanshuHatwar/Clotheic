@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styling/Women.css';
 import '../styling/home.css';
-import { womenImages } from '../assets/images';
+import { womenImages, cool4 } from '../assets/images';
 
 // Generate products with pricing from female Genz images (₹699-₹1800)
 const allProducts = womenImages.map((item) => ({
@@ -59,9 +59,13 @@ const Women = () => {
       <Header />
       
       <section className="page-hero-section">
-        <div className="page-hero-content">
-          <h1 className="page-hero-title">Women's Collection</h1>
-          <p className="page-hero-subtitle">Discover timeless elegance and contemporary style</p>
+        <img src={cool4} alt="Women's Collection" className="page-hero-image" />
+        <div className="page-hero-content"><br>
+        </br>
+        
+          <h1 className="page-hero-title"></h1>
+          <p className="page-hero-subtitle"> </p><br>
+          </br>
         </div>
       </section>
 

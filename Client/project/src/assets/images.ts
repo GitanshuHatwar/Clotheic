@@ -3,6 +3,9 @@
 
 // Product images
 import heroImage from './products/cool.jpg';
+import cool2 from './products/cool2.jpg';
+import cool3 from './products/cool3.jpg';
+import cool4 from './products/cool4.jpg';
 import homeBg from './products/home.jpg';
 import menCategoryImg from './products/img2.jpg';
 import womenCategoryImg from './products/img3.jpg';
@@ -153,4 +156,7 @@ export const brandImages = [
   { id: 5, name: 'Zara', image: Zara },
   { id: 6, name: 'H&M', image: HM },
 ];
+
+// Cool hero banner images for category pages
+export { cool2, cool3, cool4 };
 

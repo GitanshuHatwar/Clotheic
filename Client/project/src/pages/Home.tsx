@@ -31,7 +31,11 @@ const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  const [carouselIndex, setCarouselIndex] = useState(0);
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
+
+  // Carousel images - hero images to slide through
+  const carouselImages = [heroImage, productImg1, productImg2, productImg3, productImg4];
 
   useEffect(() => {
     // Trigger intro animation
@@ -48,6 +52,16 @@ const Home = () => {
         }
       }
     }, 5000);
+
+    // Scroll listener to change carousel image
+    const handleScroll = () => {
+      const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      const newIndex = Math.floor((scrollPercentage / 100) * carouselImages.length);
+      const clampedIndex = Math.min(newIndex, carouselImages.length - 1);
+      setCarouselIndex(clampedIndex);
+    };
+
+    window.addEventListener('scroll', handleScroll);
 
     // Intersection Observer for scroll animations
     const observerOptions = {
@@ -80,11 +94,12 @@ const Home = () => {
       clearTimeout(timer);
       clearTimeout(popupTimer);
       clearTimeout(observeTimer);
+      window.removeEventListener('scroll', handleScroll);
       observedRefs.forEach((ref) => {
         if (ref) observer.unobserve(ref);
       });
     };
-  }, [isAuthenticated]);
+  }, [isAuthenticated, carouselImages.length]);
   const categories = [
     { id: 1, name: "Live Now", image: menCategoryImg, subtitle: "Fresh Arrivals" },
     { id: 2, name: "Westernwear", image: womenCategoryImg, subtitle: "Trending Styles" },
@@ -109,7 +124,7 @@ const Home = () => {
     <div className={`home-container ${isLoaded ? 'loaded' : ''}`}>
       <Header />
 
-      {/* Launch Offer Banner - Hero Intro */}
+      {/* Launch Offer Banner - Hero Carousel */}
       <section 
         className="launch-banner" 
         data-section-id="hero"
@@ -120,9 +135,13 @@ const Home = () => {
         <div 
           className={`launch-banner-content ${visibleSections.has('hero') || isLoaded ? 'animate-in' : ''}`}
         >
-          <div className="launch-banner-image">
-            <img src={heroImage} alt="Launch Offer" />
-            {/* <div className="hero-gradient-overlay"></div> */}
+          <div className="launch-banner-image carousel-banner">
+            <img 
+              src={carouselImages[carouselIndex]} 
+              alt="Hero Carousel" 
+              className="carousel-img"
+              key={carouselIndex}
+            />
           </div>
         </div>
       </section>

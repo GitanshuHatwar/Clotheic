@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styling/home.css';
 import '../styling/Women.css';
-import { genzImages } from '../assets/images';
+import { genzImages, cool2 } from '../assets/images';
 
 // Generate products with pricing (₹699-₹1800)
 const allProducts = genzImages.map((item) => ({
@@ -57,6 +57,7 @@ const Genz = () => {
       <Header />
       
       <section className="page-hero-section">
+        <img src={cool2} alt="Gen Z Collection" className="page-hero-image" />
         <div className="page-hero-content">
           <h1 className="page-hero-title">Gen Z Collection</h1>
           <p className="page-hero-subtitle">Trendy and bold fashion for the new generation</p>

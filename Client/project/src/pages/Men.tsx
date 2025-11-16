@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styling/Men.css';
-import { menImages } from '../assets/images';
+import { menImages, cool3 } from '../assets/images';
 
 // Generate products with pricing from male Genz images (₹699-₹1800)
 const allProducts = menImages.map((item) => ({
@@ -56,6 +56,11 @@ const Men = () => {
   return (
     <div className="home-container loaded">
       <Header />
+      <section className="page-hero-section">
+        
+        <img src={cool3} alt="Men's Collection" className="page-hero-image" />
+        
+      </section>
       <div className="men-container">
         <aside className={`filter-sidebar ${isFilterOpen ? 'open' : ''}`}>
           <h3>Filters</h3>
