@@ -1,109 +1,183 @@
+import { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LoginPopup from '../components/LoginPopup';
+import { useAuth } from '../context/AuthContext';
 import '../styling/home.css';
 
-// Import product images
-import heroImage from '../assets/products/img1.jpg';
-import menCategoryImg from '../assets/products/img2.jpg';
-import womenCategoryImg from '../assets/products/img3.jpg';
-import accessoriesCategoryImg from '../assets/products/img4.jpg';
-import shoesCategoryImg from '../assets/products/img5.jpg';
-import productImg1 from '../assets/products/img1.jpg';
-import productImg2 from '../assets/products/img2.jpg';
-import productImg3 from '../assets/products/img6.jpg';
-import productImg4 from '../assets/products/img7.jpg';
+// Import all images from centralized assets file
+import {
+  heroImage,
+  menCategoryImg,
+  womenCategoryImg,
+  accessoriesCategoryImg,
+  shoesCategoryImg,
+  productImg1,
+  productImg2,
+  productImg3,
+  productImg4,
+  brandImages,
+} from '../assets/images';
+
+
 
 const Home = () => {
-  const products = [
-    { id: 1, name: 'Trendy Outfit 1', image: productImg1, price: 109.99, oldPrice: 159.99 },
-    { id: 2, name: 'Trendy Outfit 2', image: productImg2, price: 119.99, oldPrice: 169.99 },
-    { id: 3, name: 'Trendy Outfit 3', image: productImg3, price: 129.99, oldPrice: 179.99 },
-    { id: 4, name: 'Trendy Outfit 4', image: productImg4, price: 139.99, oldPrice: 189.99 },
+  const { isAuthenticated } = useAuth();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
+
+  useEffect(() => {
+    // Trigger intro animation
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 0);
+
+    // Show login popup after 5 seconds if not authenticated
+    const popupTimer = setTimeout(() => {
+      if (!isAuthenticated) {
+        const hasSeenPopup = localStorage.getItem('clothic_popup_seen');
+        if (!hasSeenPopup) {
+          setShowLoginPopup(true);
+        }
+      }
+    }, 5000);
+
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.getAttribute('data-section-id');
+          if (sectionId) {
+            setVisibleSections((prev) => new Set(prev).add(sectionId));
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observe all sections after a brief delay to ensure refs are set
+    let observedRefs: (HTMLElement | null)[] = [];
+    const observeTimer = setTimeout(() => {
+      const refs = sectionRefs.current;
+      observedRefs = Object.values(refs);
+      observedRefs.forEach((ref) => {
+        if (ref) observer.observe(ref);
+      });
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(popupTimer);
+      clearTimeout(observeTimer);
+      observedRefs.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+    };
+  }, [isAuthenticated]);
+  const categories = [
+    { id: 1, name: "Live Now", image: menCategoryImg, subtitle: "Fresh Arrivals" },
+    { id: 2, name: "Westernwear", image: womenCategoryImg, subtitle: "Trending Styles" },
+    { id: 3, name: "Indianwear", image: accessoriesCategoryImg, subtitle: "Ethnic Collection" },
+    { id: 4, name: "Men", image: shoesCategoryImg, subtitle: "Modern Essentials" },
+    { id: 5, name: "Footwear", image: productImg1, subtitle: "Step in Style" },
+    { id: 6, name: "Lingerie", image: productImg2, subtitle: "Comfort & Style" },
+    { id: 7, name: "Activewear", image: productImg3, subtitle: "Fitness Fashion" },
+    { id: 8, name: "Kids", image: productImg4, subtitle: "Little Fashionistas" },
+    { id: 9, name: "Bags", image: heroImage, subtitle: "Carry in Style" },
+    { id: 10, name: "Jewellery", image: menCategoryImg, subtitle: "Sparkle & Shine" },
   ];
 
+  const trendingCategories = [
+    { id: 1, name: "BAGGY JEANS", image: productImg1, overlayText: "BAGGY\nJEANS" },
+    { id: 2, name: "CLASSIC TOTES", image: productImg2, overlayText: "CLASSIC\nTOTES" },
+    { id: 3, name: "MAXI DRESSES", image: productImg3, overlayText: "MAXI\nDRESSES" },
+    { id: 4, name: "HOOPS", image: productImg4, overlayText: "HOOPS" },
+  ];
+
+
   return (
-    <div className="home-container">
+    <div className={`home-container ${isLoaded ? 'loaded' : ''}`}>
       <Header />
 
-      {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-content-wrapper">
-          <div className="hero-text">
-            <span className="hero-badge">NEW COLLECTION 2024</span>
-            <h2 className="hero-title">Elevate Your Style</h2>
-            <p className="hero-description">
-              Discover the latest trends in fashion. From casual wear to elegant outfits, 
-              find your perfect style with Clothic.
-            </p>
-            <div className="hero-buttons">
-              <button className="btn-primary">Shop Now</button>
-              <button className="btn-secondary">Explore Collections</button>
-            </div>
-          </div>
-        </div>
-        <div className="hero-image-wrapper">
-          <img src={heroImage} alt="Fashion Collection" className="hero-image" />
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section className="categories-section">
-        <div className="section-container">
-          <h2 className="section-title">Shop by Category</h2>
-          <div className="categories-grid">
-            <div className="category-card">
-              <div className="category-image-wrapper">
-                <img src={menCategoryImg} alt="Men's Fashion" className="category-image" />
-              </div>
-              <h3>Men's Fashion</h3>
-              <p>Trendy & Modern</p>
-            </div>
-            <div className="category-card">
-              <div className="category-image-wrapper">
-                <img src={womenCategoryImg} alt="Women's Fashion" className="category-image" />
-              </div>
-              <h3>Women's Fashion</h3>
-              <p>Elegant & Chic</p>
-            </div>
-            <div className="category-card">
-              <div className="category-image-wrapper">
-                <img src={accessoriesCategoryImg} alt="Accessories" className="category-image" />
-              </div>
-              <h3>Accessories</h3>
-              <p>Complete Your Look</p>
-            </div>
-            <div className="category-card">
-              <div className="category-image-wrapper">
-                <img src={shoesCategoryImg} alt="Footwear" className="category-image" />
-              </div>
-              <h3>Footwear</h3>
-              <p>Step in Style</p>
-            </div>
+      {/* Launch Offer Banner - Hero Intro */}
+      <section 
+        className="launch-banner" 
+        data-section-id="hero"
+        ref={(el) => {
+          sectionRefs.current['hero'] = el;
+        }}
+      >
+        <div 
+          className={`launch-banner-content ${visibleSections.has('hero') || isLoaded ? 'animate-in' : ''}`}
+        >
+          <div className="launch-banner-image">
+            <img src={heroImage} alt="Launch Offer" />
+            {/* <div className="hero-gradient-overlay"></div> */}
           </div>
         </div>
       </section>
 
-      {/* Featured Products Section */}
-      <section className="featured-products-section">
-        <div className="section-container">
-          <div className="section-header">
-            <h2 className="section-title">Trending Now</h2>
-            <a href="#shop" className="view-all-link">View All →</a>
-          </div>
-          <div className="products-grid">
-            {products.map((product) => (
-              <div key={product.id} className="product-card">
-                <div className="product-image-wrapper">
-                  <img src={product.image} alt={product.name} className="product-image" />
-                  <div className="product-badge">New</div>
-                  <button className="quick-view-btn">Quick View</button>
+      {/* Shop by Category - Horizontal Scroll */}
+      <section 
+        className="shop-categories-section"
+        data-section-id="categories"
+        ref={(el) => {
+          sectionRefs.current['categories'] = el;
+        }}
+      >
+        <div className="section-container-full">
+          <div className={`categories-scroll-wrapper ${visibleSections.has('categories') ? 'animate-in' : ''}`}>
+            <div className="categories-scroll">
+              {categories.map((category, index) => (
+                <div 
+                  key={category.id} 
+                  className={`category-scroll-card ${visibleSections.has('categories') ? 'card-animate' : ''}`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="category-scroll-image">
+                    <img src={category.image} alt={category.name} />
+                  </div>
+                  <div className="category-scroll-info">
+                    <h3>{category.name}</h3>
+                  </div>
                 </div>
-                <div className="product-info">
-                  <h3 className="product-name">{product.name}</h3>
-                  <p className="product-category">Fashion Collection</p>
-                  <div className="product-price">
-                    <span className="price">${product.price.toFixed(2)}</span>
-                    <span className="old-price">${product.oldPrice.toFixed(2)}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trending Now Section */}
+      <section 
+        className="trending-section"
+        data-section-id="trending"
+        ref={(el) => {
+          sectionRefs.current['trending'] = el;
+        }}
+      >
+        <div className="section-container-full">
+          <div className="section-header-premium">
+            <h2 className={`trending-title ${visibleSections.has('trending') ? 'title-animate' : ''}`}>Trending Now</h2>
+            <div className="offers-badge">Special Offers</div>
+          </div>
+          <div className="trending-grid">
+            {trendingCategories.map((item, index) => (
+              <div 
+                key={item.id} 
+                className={`trending-card premium-card ${visibleSections.has('trending') ? 'card-fade-in' : ''}`}
+                style={{ animationDelay: `${index * 0.15}s` }}
+              >
+                <div className="trending-card-image">
+                  <img src={item.image} alt={item.name} />
+                  <div className="trending-card-overlay">
+                    <h3>{item.overlayText}</h3>
+                    <div className="trending-offer">UP TO 50% OFF</div>
                   </div>
                 </div>
               </div>
@@ -112,38 +186,126 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Banner Section */}
-      <section className="banner-section">
-        <div className="section-container">
-          <div className="banner-content">
-            <h2>Summer Sale</h2>
-            <p>Up to 50% Off on Selected Items</p>
-            <button className="banner-btn">Shop Sale</button>
+
+      {/* Brands We Love Section */}
+      <section 
+        className="brands-section"
+        data-section-id="brands"
+        ref={(el) => {
+          sectionRefs.current['brands'] = el;
+        }}
+      >
+        <div className="section-container-full">
+          <h2 className={`section-title-dark ${visibleSections.has('brands') ? 'title-animate' : ''}`}>Brands We Love</h2>
+          <div className="brands-grid">
+            {brandImages.map((brand, index) => (
+              <div 
+                key={brand.id} 
+                className={`brand-card ${visibleSections.has('brands') ? 'brand-animate' : ''}`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="brand-logo-container">
+                  <img src={brand.image} alt={brand.name} className="brand-logo-image" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Shop by Style Section */}
+      <section 
+        className="style-section"
+        data-section-id="styles"
+        ref={(el) => {
+          sectionRefs.current['styles'] = el;
+        }}
+      >
+        <div className="section-container-full">
+          <h2 className={`section-title-dark ${visibleSections.has('styles') ? 'title-animate' : ''}`}>Shop by Style</h2>
+          <div className="style-grid">
+            <div 
+              className={`style-card style-card-large ${visibleSections.has('styles') ? 'style-card-animate' : ''}`}
+              style={{ animationDelay: '0s' }}
+            >
+              <img src={productImg1} alt="Casual Wear" />
+              <div className="style-card-content">
+                <h3>Casual Wear</h3>
+                <p>Everyday Comfort</p>
+                <button className="style-card-btn">Shop Now</button>
+              </div>
+            </div>
+            <div 
+              className={`style-card ${visibleSections.has('styles') ? 'style-card-animate' : ''}`}
+              style={{ animationDelay: '0.2s' }}
+            >
+              <img src={productImg2} alt="Formal Wear" />
+              <div className="style-card-content">
+                <h3>Formal Wear</h3>
+                <p>Office Ready</p>
+                <button className="style-card-btn">Shop Now</button>
+              </div>
+            </div>
+            <div 
+              className={`style-card ${visibleSections.has('styles') ? 'style-card-animate' : ''}`}
+              style={{ animationDelay: '0.4s' }}
+            >
+              <img src={productImg3} alt="Party Wear" />
+              <div className="style-card-content">
+                <h3>Party Wear</h3>
+                <p>Night Out</p>
+                <button className="style-card-btn">Shop Now</button>
+              </div>
+            </div>
+            <div 
+              className={`style-card style-card-large ${visibleSections.has('styles') ? 'style-card-animate' : ''}`}
+              style={{ animationDelay: '0.6s' }}
+            >
+              <img src={productImg4} alt="Ethnic Wear" />
+              <div className="style-card-content">
+                <h3>Ethnic Wear</h3>
+                <p>Traditional Charm</p>
+                <button className="style-card-btn">Shop Now</button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Newsletter Section */}
-      <section className="newsletter-section">
+      <section 
+        className="newsletter-section-modern"
+        data-section-id="newsletter"
+        ref={(el) => {
+          sectionRefs.current['newsletter'] = el;
+        }}
+      >
         <div className="section-container">
-          <div className="newsletter-content">
-            <h2>Stay in Style</h2>
-            <p>
-              Subscribe to our newsletter and get the latest fashion trends delivered to your inbox.
-            </p>
-            <form className="newsletter-form">
+          <div className={`newsletter-content-modern ${visibleSections.has('newsletter') ? 'newsletter-animate' : ''}`}>
+            <h2>Get Latest Updates</h2>
+            <p>Subscribe to our newsletter for exclusive offers and style tips</p>
+            <form className="newsletter-form-modern">
               <input 
                 type="email" 
                 placeholder="Enter your email address" 
-                className="newsletter-input"
+                className="newsletter-input-modern"
               />
-              <button type="submit" className="btn-primary">Subscribe</button>
+              <button type="submit" className="newsletter-btn-modern">Subscribe</button>
             </form>
           </div>
         </div>
       </section>
 
       <Footer />
+
+      {showLoginPopup && (
+        <LoginPopup 
+          onClose={() => {
+            setShowLoginPopup(false);
+            localStorage.setItem('clothic_popup_seen', 'true');
+          }} 
+        />
+      )}
     </div>
   );
 };

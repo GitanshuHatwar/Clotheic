@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import FindByImage from './FindByImage';
 
 const Header = () => {
+  const { isAuthenticated, user, logout } = useAuth();
+
   return (
     <header className="header">
       <div className="header-container">
@@ -12,12 +16,27 @@ const Header = () => {
           </div>
           <nav className="nav">
             <Link to="/" className="nav-link">Home</Link>
-            <Link to="/shop" className="nav-link">Shop</Link>
-            <Link to="/collections" className="nav-link">Collections</Link>
+            <Link to="/shop" className="nav-link">Women</Link>
+            <Link to="/men" className="nav-link">Men</Link>
+            <Link to="/kids" className="nav-link">Kids</Link>
+            <Link to="/genz" className="nav-link">Genz</Link>
+            <Link to="/collections" className="nav-link">Brands</Link>
             <Link to="/about" className="nav-link">About</Link>
             <Link to="/contact" className="nav-link">Contact</Link>
           </nav>
           <div className="header-actions">
+            <FindByImage />
+            {isAuthenticated ? (
+              <>
+                <span className="user-greeting">Hi, {user?.username}</span>
+                <button onClick={logout} className="auth-link-btn">Logout</button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="auth-link-btn">Login</Link>
+                <Link to="/signup" className="auth-link-btn primary">Sign Up</Link>
+              </>
+            )}
             <button className="icon-btn" aria-label="Search">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="11" cy="11" r="8"></circle>
