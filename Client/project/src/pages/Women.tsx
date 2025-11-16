@@ -1,30 +1,26 @@
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styling/Women.css';
 import '../styling/home.css';
+import { womenImages } from '../assets/images';
 
-const products = [
-  { id: 1, name: 'Elegant Floral Blouse', price: '$75', image: '/src/assets/products/women1.jpg' },
-  { id: 2, name: 'High-Waisted Skinny Jeans', price: '$90', image: '/src/assets/products/women2.jpg' },
-  { id: 3, name: 'Cashmere Knit Sweater', price: '$180', image: '/src/assets/products/women3.jpg' },
-  { id: 4, name: 'Suede Ankle Boots', price: '$220', image: '/src/assets/products/women4.jpg' },
-  { id: 5, name: 'Leather Tote Bag', price: '$150', image: '/src/assets/products/women5.jpg' },
-  { id: 6, name: 'Silk Neck Scarf', price: '$45', image: '/src/assets/products/women6.jpg' },
-  { id: 7, name: 'Tailored Wool Coat', price: '$350', image: '/src/assets/products/women7.jpg' },
-  { id: 8, name: 'A-Line Midi Skirt', price: '$110', image: '/src/assets/products/women8.jpg' },
-  { id: 9, name: 'Classic Trench Coat', price: '$280', image: '/src/assets/products/women9.jpg' },
-  { id: 10, name: 'Lace Bodycon Dress', price: '$190', image: '/src/assets/products/women10.jpg' },
-  { id: 11, name: 'Wide-Leg Trousers', price: '$130', image: '/src/assets/products/women11.jpg' },
-  { id: 12, name: 'Platform Espadrilles', price: '$160', image: '/src/assets/products/women12.jpg' },
-];
+// Generate products with pricing from female Genz images (₹699-₹1800)
+const allProducts = womenImages.map((item) => ({
+  ...item,
+  priceValue: 699 + ((item.id % 1101) + 1),
+  price: `₹${699 + ((item.id % 1101) + 1)}`,
+}));
 
 const Women = () => {
+  const navigate = useNavigate();
   const [isFilterOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([699, 1800]);
+  const [sortBy, setSortBy] = useState<string>('featured');
 
 
   const toggleCategory = (category: string) => {
@@ -40,8 +36,23 @@ const Women = () => {
   };
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPriceRange([0, parseInt(e.target.value, 10)]);
+    setPriceRange([699, parseInt(e.target.value, 10)]);
   };
+
+  const filteredAndSortedProducts = useMemo(() => {
+    let filtered = allProducts.filter(product => {
+      const price = product.priceValue;
+      return price >= priceRange[0] && price <= priceRange[1];
+    });
+
+    if (sortBy === 'high-low') {
+      filtered = [...filtered].sort((a, b) => b.priceValue - a.priceValue);
+    } else if (sortBy === 'low-high') {
+      filtered = [...filtered].sort((a, b) => a.priceValue - b.priceValue);
+    }
+
+    return filtered;
+  }, [priceRange, sortBy]);
 
   return (
     <div className="home-container loaded">
@@ -95,12 +106,12 @@ const Women = () => {
             <h4>Price</h4>
             <input
               type="range"
-              min="0"
-              max="500"
+              min="699"
+              max="1800"
               value={priceRange[1]}
               onChange={handlePriceChange}
             />
-            <div className="price-label">Up to ${priceRange[1]}</div>
+            <div className="price-label">₹{priceRange[0]} - ₹{priceRange[1]}</div>
           </div>
         </aside>
 
@@ -108,26 +119,30 @@ const Women = () => {
           <div className="product-grid-header">
             <h2>Timeless Pieces</h2>
             <div className="sort-options">
-              <select>
-                <option>Sort by: Featured</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Newest</option>
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="featured">Sort by: Featured</option>
+                <option value="low-high">Price: Low to High</option>
+                <option value="high-low">Price: High to Low</option>
+                <option value="newest">Newest</option>
               </select>
             </div>
           </div>
 
           <div className="product-grid">
-            {products.map(product => (
-              <div key={product.id} className="product-card">
+            {filteredAndSortedProducts.map(product => (
+              <div 
+                key={product.id} 
+                className="product-card"
+                onClick={() => navigate(`/product/${product.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="product-image-container">
                   <img src={product.image} alt={product.name} className="product-image" />
                 </div>
                 <div className="product-info">
                   <h5>{product.name}</h5>
-                  <p>{product.price}</p>
+                  <p className="product-price">{product.price}</p>
                 </div>
-                <button className="quick-view-btn">Quick View</button>
               </div>
             ))}
           </div>

@@ -1,0 +1,142 @@
+.wishlist-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.wishlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.wishlist-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.wishlist-empty-container {
+  max-width: 600px;
+  margin: 4rem auto;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.wishlist-empty-content svg {
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+.wishlist-empty-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+}
+
+.wishlist-empty-content p {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.wishlist-item {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.wishlist-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.wishlist-item-image {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.wishlist-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.wishlist-item:hover .wishlist-item-image img {
+  transform: scale(1.05);
+}
+
+.remove-wishlist-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: #ff3f6c;
+}
+
+.remove-wishlist-btn:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+
+.wishlist-item-info {
+  padding: 1.5rem;
+}
+
+.wishlist-item-info h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  color: #1a1a1a;
+}
+
+.wishlist-item-info h3:hover {
+  color: #666;
+}
+
+.wishlist-item-price {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.move-to-cart-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.move-to-cart-btn:hover {
+  background: #333;
+  transform: translateY(-2px);
+}
+

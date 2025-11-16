@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LoginPopup from '../components/LoginPopup';
@@ -17,11 +18,15 @@ import {
   productImg3,
   productImg4,
   brandImages,
+  genzImages,
+  menImages,
+  womenImages,
 } from '../assets/images';
 
 
 
 const Home = () => {
+  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [isLoaded, setIsLoaded] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
@@ -88,7 +93,6 @@ const Home = () => {
     { id: 5, name: "Footwear", image: productImg1, subtitle: "Step in Style" },
     { id: 6, name: "Lingerie", image: productImg2, subtitle: "Comfort & Style" },
     { id: 7, name: "Activewear", image: productImg3, subtitle: "Fitness Fashion" },
-    { id: 8, name: "Kids", image: productImg4, subtitle: "Little Fashionistas" },
     { id: 9, name: "Bags", image: heroImage, subtitle: "Carry in Style" },
     { id: 10, name: "Jewellery", image: menCategoryImg, subtitle: "Sparkle & Shine" },
   ];
@@ -203,6 +207,7 @@ const Home = () => {
                 key={brand.id} 
                 className={`brand-card ${visibleSections.has('brands') ? 'brand-animate' : ''}`}
                 style={{ animationDelay: `${index * 0.1}s` }}
+                onClick={() => navigate('/men')}
               >
                 <div className="brand-logo-container">
                   <img src={brand.image} alt={brand.name} className="brand-logo-image" />
@@ -268,6 +273,159 @@ const Home = () => {
                 <button className="style-card-btn">Shop Now</button>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Special Offers Banner */}
+      <section 
+        className="offers-banner-section"
+        data-section-id="offers"
+        ref={(el) => {
+          sectionRefs.current['offers'] = el;
+        }}
+      >
+        <div className="section-container-full">
+          <div className={`offers-banner ${visibleSections.has('offers') ? 'animate-in' : ''}`}>
+            <div className="offer-content">
+              <h2>FLAT 50% OFF</h2>
+              <p>On Selected Items - Limited Time Only!</p>
+              <button className="shop-now-btn" onClick={() => navigate('/genz')}>Shop Now</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Best Sellers - Men Section */}
+      <section 
+        className="best-sellers-section"
+        data-section-id="men-featured"
+        ref={(el) => {
+          sectionRefs.current['men-featured'] = el;
+        }}
+      >
+        <div className="section-container-full">
+          <div className="section-header-with-link">
+            <h2 className={`section-title-dark ${visibleSections.has('men-featured') ? 'title-animate' : ''}`}>Best Sellers - Men</h2>
+            <button className="view-all-btn" onClick={() => navigate('/men')}>View All</button>
+          </div>
+          <div className="products-grid-full">
+            {menImages.slice(0, 8).map((product, index) => {
+              const productPrice = 699 + ((product.id % 1101) + 1);
+              return (
+                <div 
+                  key={product.id} 
+                  className={`product-card-modern ${visibleSections.has('men-featured') ? 'card-fade-in' : ''}`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  onClick={() => navigate(`/product/${product.id}`)}
+                >
+                  <div className="product-image-container">
+                    <img src={product.image} alt={product.name} />
+                    {index < 3 && <div className="product-discount-badge">50% OFF</div>}
+                  </div>
+                  <div className="product-details">
+                    <div className="product-name-truncate">{product.name}</div>
+                    <div className="product-pricing">
+                      {index < 3 ? (
+                        <>
+                          <span className="product-price-main">₹{Math.floor(productPrice * 0.5)}</span>
+                          <span className="product-price-old">₹{productPrice}</span>
+                        </>
+                      ) : (
+                        <span className="product-price-main">₹{productPrice}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Best Sellers - Women Section */}
+      <section 
+        className="best-sellers-section"
+        data-section-id="women-featured"
+        ref={(el) => {
+          sectionRefs.current['women-featured'] = el;
+        }}
+      >
+        <div className="section-container-full">
+          <div className="section-header-with-link">
+            <h2 className={`section-title-dark ${visibleSections.has('women-featured') ? 'title-animate' : ''}`}>Best Sellers - Women</h2>
+            <button className="view-all-btn" onClick={() => navigate('/women')}>View All</button>
+          </div>
+          <div className="products-grid-full">
+            {womenImages.slice(0, 8).map((product, index) => {
+              const productPrice = 699 + ((product.id % 1101) + 1);
+              return (
+                <div 
+                  key={product.id} 
+                  className={`product-card-modern ${visibleSections.has('women-featured') ? 'card-fade-in' : ''}`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  onClick={() => navigate(`/product/${product.id}`)}
+                >
+                  <div className="product-image-container">
+                    <img src={product.image} alt={product.name} />
+                    {index < 3 && <div className="product-discount-badge">40% OFF</div>}
+                  </div>
+                  <div className="product-details">
+                    <div className="product-name-truncate">{product.name}</div>
+                    <div className="product-pricing">
+                      {index < 3 ? (
+                        <>
+                          <span className="product-price-main">₹{Math.floor(productPrice * 0.6)}</span>
+                          <span className="product-price-old">₹{productPrice}</span>
+                        </>
+                      ) : (
+                        <span className="product-price-main">₹{productPrice}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* New Arrivals - Genz Section */}
+      <section 
+        className="best-sellers-section"
+        data-section-id="featured"
+        ref={(el) => {
+          sectionRefs.current['featured'] = el;
+        }}
+      >
+        <div className="section-container-full">
+          <div className="section-header-with-link">
+            <h2 className={`section-title-dark ${visibleSections.has('featured') ? 'title-animate' : ''}`}>New Arrivals - Genz</h2>
+            <button className="view-all-btn" onClick={() => navigate('/genz')}>View All</button>
+          </div>
+          <div className="products-grid-full">
+            {genzImages.slice(0, 8).map((product, index) => {
+              const productPrice = 699 + ((product.id % 1101) + 1);
+              return (
+                <div 
+                  key={product.id} 
+                  className={`product-card-modern ${visibleSections.has('featured') ? 'card-fade-in' : ''}`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  onClick={() => navigate(`/product/${product.id}`)}
+                >
+                  <div className="product-image-container">
+                    <img src={product.image} alt={product.name} />
+                    <div className="product-discount-badge">NEW</div>
+                  </div>
+                  <div className="product-details">
+                    <div className="product-name-truncate">{product.name}</div>
+                    <div className="product-pricing">
+                      <span className="product-price-main">₹{productPrice}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

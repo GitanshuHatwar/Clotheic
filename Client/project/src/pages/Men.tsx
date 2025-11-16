@@ -1,37 +1,25 @@
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styling/Men.css';
+import { menImages } from '../assets/images';
 
-const products = [
-  { id: 1, name: 'Classic Crewneck T-Shirt', price: '$25', image: '/src/assets/products/img1.jpg' },
-  { id: 2, name: 'Slim-Fit Chinos', price: '$60', image: '/src/assets/products/img2.jpg' },
-  { id: 3, name: 'Vintage Denim Jacket', price: '$120', image: '/src/assets/products/img3.jpg' },
-  { id: 4, name: 'Leather Derby Shoes', price: '$150', image: '/src/assets/products/img4.jpg' },
-  { id: 5, name: 'Knit Beanie', price: '$20', image: '/src/assets/products/img5.jpg' },
-  { id: 6, name: 'Wool-Cashmere Blend Scarf', price: '$75', image: '/src/assets/products/img6.jpg' },
-  { id: 7, name: 'Long-Sleeve Henley', price: '$45', image: '/src/assets/products/img7.jpg' },
-  { id: 8, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 9, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 10, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 11, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 12, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 13, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 14, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 15, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 16, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 17, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 18, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 19, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-  { id: 20, name: 'Modern Fit Suit', price: '$450', image: '/src/assets/products/cool.jpg' },
-];
+// Generate products with pricing from male Genz images (₹699-₹1800)
+const allProducts = menImages.map((item) => ({
+  ...item,
+  priceValue: 699 + ((item.id % 1101) + 1),
+  price: `₹${699 + ((item.id % 1101) + 1)}`,
+}));
 
 const Men = () => {
+  const navigate = useNavigate();
   const [isFilterOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([699, 1800]);
+  const [sortBy, setSortBy] = useState<string>('featured');
 
 
   const toggleCategory = (category: string) => {
@@ -47,8 +35,23 @@ const Men = () => {
   };
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPriceRange([0, parseInt(e.target.value, 10)]);
+    setPriceRange([699, parseInt(e.target.value, 10)]);
   };
+
+  const filteredAndSortedProducts = useMemo(() => {
+    let filtered = allProducts.filter(product => {
+      const price = product.priceValue;
+      return price >= priceRange[0] && price <= priceRange[1];
+    });
+
+    if (sortBy === 'high-low') {
+      filtered = [...filtered].sort((a, b) => b.priceValue - a.priceValue);
+    } else if (sortBy === 'low-high') {
+      filtered = [...filtered].sort((a, b) => a.priceValue - b.priceValue);
+    }
+
+    return filtered;
+  }, [priceRange, sortBy]);
 
   return (
     <div className="home-container loaded">
@@ -94,12 +97,12 @@ const Men = () => {
             <h4>Price</h4>
             <input
               type="range"
-              min="0"
-              max="500"
+              min="699"
+              max="1800"
               value={priceRange[1]}
               onChange={handlePriceChange}
             />
-            <div className="price-label">Up to ${priceRange[1]}</div>
+            <div className="price-label">₹{priceRange[0]} - ₹{priceRange[1]}</div>
           </div>
         </aside>
 
@@ -107,26 +110,30 @@ const Men = () => {
           <div className="product-grid-header">
             <h2>Men's Collection</h2>
             <div className="sort-options">
-              <select>
-                <option>Sort by: Featured</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Newest</option>
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="featured">Sort by: Featured</option>
+                <option value="low-high">Price: Low to High</option>
+                <option value="high-low">Price: High to Low</option>
+                <option value="newest">Newest</option>
               </select>
             </div>
           </div>
 
           <div className="product-grid">
-            {products.map(product => (
-              <div key={product.id} className="product-card">
+            {filteredAndSortedProducts.map(product => (
+              <div 
+                key={product.id} 
+                className="product-card"
+                onClick={() => navigate(`/product/${product.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="product-image-container">
                   <img src={product.image} alt={product.name} className="product-image" />
                 </div>
                 <div className="product-info">
                   <h5>{product.name}</h5>
-                  <p>{product.price}</p>
+                  <p className="product-price">{product.price}</p>
                 </div>
-                <button className="add-to-cart-btn">Add to Cart</button>
               </div>
             ))}
           </div>
