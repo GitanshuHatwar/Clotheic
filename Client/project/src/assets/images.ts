@@ -11,10 +11,10 @@ import menCategoryImg from './products/img2.jpg';
 import womenCategoryImg from './products/img3.jpg';
 import accessoriesCategoryImg from './products/img4.jpg';
 import shoesCategoryImg from './products/img5.jpg';
-import productImg1 from './products/img1.jpg';
-import productImg2 from './products/img2.jpg';
-import productImg3 from './products/img6.jpg';
-import productImg4 from './products/img7.jpg';
+import productImg1 from './products/img3.jpg';
+import productImg2 from './products/img4.jpg';
+import productImg3 from './products/img5.jpg';
+import productImg4 from './products/img1.jpg';
 
 // Slideshow images
 import slideshowImg1 from './products/slideshow/cool.jpg';
@@ -167,4 +167,32 @@ export { cool2, cool3, cool4 };
 
 // Slideshow images array
 export const slideshowImages = [slideshowImg1, slideshowImg2, slideshowImg3];
+
+// Shop by Category images using Genz collection
+export const shopByCategoryImages = [
+  { id: 1, name: "Live Now", image: genzMale1, subtitle: "Fresh Arrivals" },
+  { id: 2, name: "Westernwear", image: genzFemale5, subtitle: "Trending Styles" },
+  { id: 3, name: "Indianwear", image: genzMale2, subtitle: "Ethnic Collection" },
+  { id: 4, name: "Men", image: genzMale5, subtitle: "Modern Essentials" },
+  { id: 5, name: "Footwear", image: genzMale11, subtitle: "Step in Style" },
+  { id: 6, name: "Lingerie", image: genzFemale3, subtitle: "Comfort & Style" },
+  { id: 7, name: "Activewear", image: genzFemale2, subtitle: "Fitness Fashion" },
+  { id: 9, name: "Casual Wear", image: genzMale13, subtitle: "Carry in Style" },
+];
+
+// Trending/Shop by Style images using products folder
+export const trendingCategoryImages = [
+  { id: 1, name: "BAGGY JEANS", image: productImg1, overlayText: "BAGGY\nJEANS" },
+  { id: 2, name: "CROP TOPS", image: productImg2, overlayText: "CROP\nTOPS" },
+  { id: 3, name: "OVERSIZED WEAR", image: productImg3, overlayText: "OVERSIZED\nWEAR" },
+  { id: 4, name: "STREETWEAR", image: productImg4, overlayText: "STREETWEAR" },
+];
+
+// Style/Fashion Category images using Genz collection
+export const styleImages = [
+  { id: 1, name: "Casual Wear", description: "Everyday Comfort", image: genzMale8 },
+  { id: 2, name: "Formal Wear", description: "Office Ready", image: genzMale6 },
+  { id: 3, name: "Party Wear", description: "Night Out", image: genzFemale5 },
+  { id: 4, name: "Ethnic Wear", description: "Traditional Charm", image: genzFemale7 },
+];
 

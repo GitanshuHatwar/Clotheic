@@ -116,10 +116,6 @@
   .nav {
     display: flex;
   }
-  
-  .mobile-menu-btn {
-    display: none;
-  }
 }
 
 /* Mobile Sidebar Navigation */

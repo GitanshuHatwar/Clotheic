@@ -8,19 +8,11 @@ import '../styling/home.css';
 
 // Import all images from centralized assets file
 import {
-  menCategoryImg,
-  womenCategoryImg,
-  accessoriesCategoryImg,
-  shoesCategoryImg,
-  productImg1,
-  productImg2,
-  productImg3,
-  productImg4,
   brandImages,
-  genzImages,
-  menImages,
-  womenImages,
   slideshowImages,
+  shopByCategoryImages,
+  trendingCategoryImages,
+  styleImages,
 } from '../assets/images';
 
 
@@ -94,24 +86,10 @@ const Home = () => {
       });
     };
   }, [isAuthenticated]);
-  const categories = [
-    { id: 1, name: "Live Now", image: menCategoryImg, subtitle: "Fresh Arrivals" },
-    { id: 2, name: "Westernwear", image: womenCategoryImg, subtitle: "Trending Styles" },
-    { id: 3, name: "Indianwear", image: accessoriesCategoryImg, subtitle: "Ethnic Collection" },
-    { id: 4, name: "Men", image: shoesCategoryImg, subtitle: "Modern Essentials" },
-    { id: 5, name: "Footwear", image: productImg1, subtitle: "Step in Style" },
-    { id: 6, name: "Lingerie", image: productImg2, subtitle: "Comfort & Style" },
-    { id: 7, name: "Activewear", image: productImg3, subtitle: "Fitness Fashion" },
-    { id: 9, name: "Casual Wear", image: productImg4, subtitle: "Carry in Style" },
-    { id: 10, name: "Jewellery", image: menCategoryImg, subtitle: "Sparkle & Shine" },
-  ];
 
-  const trendingCategories = [
-    { id: 1, name: "BAGGY JEANS", image: productImg1, overlayText: "BAGGY\nJEANS" },
-    { id: 2, name: "CLASSIC TOTES", image: productImg2, overlayText: "CLASSIC\nTOTES" },
-    { id: 3, name: "MAXI DRESSES", image: productImg3, overlayText: "MAXI\nDRESSES" },
-    { id: 4, name: "HOOPS", image: productImg4, overlayText: "HOOPS" },
-  ];
+  const categories = shopByCategoryImages;
+
+  const trendingCategories = trendingCategoryImages;
 
 
   return (
@@ -256,10 +234,10 @@ const Home = () => {
               style={{ animationDelay: '0s' }}
               onClick={() => navigate('/genz')}
             >
-              <img src={productImg1} alt="Casual Wear" />
+              <img src={styleImages[0].image} alt={styleImages[0].name} />
               <div className="style-card-content">
-                <h3>Casual Wear</h3>
-                <p>Everyday Comfort</p>
+                <h3>{styleImages[0].name}</h3>
+                <p>{styleImages[0].description}</p>
                 <button className="style-card-btn" onClick={(e) => { e.stopPropagation(); navigate('/genz'); }}>Shop Now</button>
               </div>
             </div>
@@ -268,10 +246,10 @@ const Home = () => {
               style={{ animationDelay: '0.2s' }}
               onClick={() => navigate('/genz')}
             >
-              <img src={productImg2} alt="Formal Wear" />
+              <img src={styleImages[1].image} alt={styleImages[1].name} />
               <div className="style-card-content">
-                <h3>Formal Wear</h3>
-                <p>Office Ready</p>
+                <h3>{styleImages[1].name}</h3>
+                <p>{styleImages[1].description}</p>
                 <button className="style-card-btn" onClick={(e) => { e.stopPropagation(); navigate('/genz'); }}>Shop Now</button>
               </div>
             </div>
@@ -280,10 +258,10 @@ const Home = () => {
               style={{ animationDelay: '0.4s' }}
               onClick={() => navigate('/genz')}
             >
-              <img src={productImg3} alt="Party Wear" />
+              <img src={styleImages[2].image} alt={styleImages[2].name} />
               <div className="style-card-content">
-                <h3>Party Wear</h3>
-                <p>Night Out</p>
+                <h3>{styleImages[2].name}</h3>
+                <p>{styleImages[2].description}</p>
                 <button className="style-card-btn" onClick={(e) => { e.stopPropagation(); navigate('/genz'); }}>Shop Now</button>
               </div>
             </div>
@@ -292,10 +270,10 @@ const Home = () => {
               style={{ animationDelay: '0.6s' }}
               onClick={() => navigate('/genz')}
             >
-              <img src={productImg4} alt="Ethnic Wear" />
+              <img src={styleImages[3].image} alt={styleImages[3].name} />
               <div className="style-card-content">
-                <h3>Ethnic Wear</h3>
-                <p>Traditional Charm</p>
+                <h3>{styleImages[3].name}</h3>
+                <p>{styleImages[3].description}</p>
                 <button className="style-card-btn" onClick={(e) => { e.stopPropagation(); navigate('/genz'); }}>Shop Now</button>
               </div>
             </div>
