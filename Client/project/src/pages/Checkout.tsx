@@ -18,7 +18,6 @@ const Checkout = () => {
     pincode: '',
     city: '',
     state: '',
-    paymentMethod: 'cod',
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -48,15 +47,11 @@ const Checkout = () => {
     if (!formData.state.trim()) {
       newErrors.state = 'State is required';
     }
-    if (!formData.paymentMethod) {
-      newErrors.paymentMethod = 'Please select a payment method';
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) {
@@ -66,19 +61,22 @@ const Checkout = () => {
     const fullAddress = `${formData.address}, ${formData.city}, ${formData.state} - ${formData.pincode}`;
     const total = getTotalPrice() + 50 + (getTotalPrice() * 0.18);
 
-    const orderId = placeOrder({
-      items: cart,
-      total: Math.round(total),
-      address: fullAddress,
-      pincode: formData.pincode,
-      paymentMethod: formData.paymentMethod === 'cod' ? 'Cash on Delivery' : 
-                     formData.paymentMethod === 'card' ? 'Credit/Debit Card' :
-                     formData.paymentMethod === 'upi' ? 'UPI' : 'Net Banking',
-    });
+    try {
+      const orderId = await placeOrder({
+        items: cart,
+        total: Math.round(total),
+        address: fullAddress,
+        pincode: formData.pincode,
+        paymentMethod: 'Cash on Delivery',
+      });
 
-    clearCart();
-    alert(`Order placed successfully! Order ID: ${orderId}`);
-    navigate('/orders');
+      clearCart();
+      alert(`Order placed successfully! Order ID: ${orderId}`);
+      navigate('/orders');
+    } catch (error) {
+      console.error('Failed to place order', error);
+      alert('Unable to place order right now. Please try again.');
+    }
   };
 
   const subtotal = getTotalPrice();
@@ -160,64 +158,18 @@ const Checkout = () => {
 
               <h2 className="payment-section-title">Payment Method</h2>
               
-              <div className="payment-methods">
-                <label className={`payment-option ${formData.paymentMethod === 'cod' ? 'selected' : ''}`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="cod"
-                    checked={formData.paymentMethod === 'cod'}
-                    onChange={handleInputChange}
-                  />
+              <div className="payment-methods single-option">
+                <div className="payment-option selected">
                   <div className="payment-option-content">
                     <span className="payment-option-name">Cash on Delivery</span>
-                    <span className="payment-option-desc">Pay when you receive</span>
+                    <span className="payment-option-desc">Pay conveniently when you receive your order</span>
                   </div>
-                </label>
-
-                <label className={`payment-option ${formData.paymentMethod === 'card' ? 'selected' : ''}`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="card"
-                    checked={formData.paymentMethod === 'card'}
-                    onChange={handleInputChange}
-                  />
-                  <div className="payment-option-content">
-                    <span className="payment-option-name">Credit/Debit Card</span>
-                    <span className="payment-option-desc">Visa, Mastercard, Rupay</span>
-                  </div>
-                </label>
-
-                <label className={`payment-option ${formData.paymentMethod === 'upi' ? 'selected' : ''}`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="upi"
-                    checked={formData.paymentMethod === 'upi'}
-                    onChange={handleInputChange}
-                  />
-                  <div className="payment-option-content">
-                    <span className="payment-option-name">UPI</span>
-                    <span className="payment-option-desc">Paytm, Google Pay, PhonePe</span>
-                  </div>
-                </label>
-
-                <label className={`payment-option ${formData.paymentMethod === 'netbanking' ? 'selected' : ''}`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="netbanking"
-                    checked={formData.paymentMethod === 'netbanking'}
-                    onChange={handleInputChange}
-                  />
-                  <div className="payment-option-content">
-                    <span className="payment-option-name">Net Banking</span>
-                    <span className="payment-option-desc">All major banks</span>
-                  </div>
-                </label>
+                  <div className="payment-option-badge">Available</div>
+                </div>
+                <p className="payment-availability-note">
+                  Currently we are accepting only Cash on Delivery orders.
+                </p>
               </div>
-              {errors.paymentMethod && <span className="error-message">{errors.paymentMethod}</span>}
             </div>
 
             <div className="checkout-summary-section">

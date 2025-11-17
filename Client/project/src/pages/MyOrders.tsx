@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -7,7 +8,11 @@ import '../styling/MyOrders.css';
 
 const MyOrders = () => {
   const navigate = useNavigate();
-  const { orders } = useOrder();
+  const { orders, isSyncing, refreshOrders } = useOrder();
+
+  useEffect(() => {
+    refreshOrders();
+  }, [refreshOrders]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -21,6 +26,22 @@ const MyOrders = () => {
         return '#757575';
     }
   };
+
+  if (isSyncing) {
+    return (
+      <div className="home-container loaded">
+        <Header />
+        <div className="orders-empty-container">
+          <div className="orders-empty-content">
+            <div className="orders-loading-spinner" />
+            <h2>Loading your orders</h2>
+            <p>Please wait while we fetch your latest orders.</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (orders.length === 0) {
     return (

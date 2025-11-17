@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -9,6 +9,15 @@ const Header = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const { getTotalItems } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const expectedDeliveryDate = useMemo(() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 5);
+    return date.toLocaleDateString('en-IN', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+    });
+  }, []);
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
@@ -117,6 +126,25 @@ const Header = () => {
             <Link to="/men" className="mobile-nav-link" onClick={handleNavClick}>Men</Link>
             <Link to="/genz" className="mobile-nav-link" onClick={handleNavClick}>Genz</Link>
             <Link to="/collections" className="mobile-nav-link" onClick={handleNavClick}>Brands</Link>
+            <div className="mobile-track-section">
+              <div className="mobile-track-header">
+                <h3>Track your order</h3>
+                <Link to="/orders" className="mobile-track-btn" onClick={handleNavClick}>
+                  Track Order
+                </Link>
+              </div>
+              <div className="mobile-track-statuses">
+                <div className="track-status confirmed">
+                  <span>Order Confirmed</span>
+                </div>
+                <div className="track-status out-for-delivery">
+                  <span>Out for Delivery</span>
+                </div>
+                <div className="track-status eta">
+                  <span>Expected delivery: {expectedDeliveryDate}</span>
+                </div>
+              </div>
+            </div>
             {isAuthenticated ? (
               <>
                 <Link to="/wishlist" className="mobile-nav-link" onClick={handleNavClick}>Wishlist</Link>

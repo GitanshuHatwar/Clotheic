@@ -99,6 +99,10 @@
   gap: 1rem;
 }
 
+.payment-methods.single-option {
+  gap: 0.75rem;
+}
+
 .payment-option {
   display: flex;
   align-items: center;
@@ -118,11 +122,6 @@
   background: #f5f5f5;
 }
 
-.payment-option input[type="radio"] {
-  margin-right: 1rem;
-  width: auto;
-}
-
 .payment-option-content {
   display: flex;
   flex-direction: column;
@@ -138,6 +137,22 @@
 .payment-option-desc {
   font-size: 0.875rem;
   color: #666;
+}
+
+.payment-option-badge {
+  padding: 0.4rem 0.75rem;
+  background: #e6f4ea;
+  color: #0f9d58;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.payment-availability-note {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+  padding: 0.5rem 0.25rem 0;
 }
 
 .checkout-summary-section {
