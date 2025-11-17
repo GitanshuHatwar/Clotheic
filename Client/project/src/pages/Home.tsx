@@ -108,7 +108,7 @@ const Home = () => {
     { id: 5, name: "Footwear", image: productImg1, subtitle: "Step in Style" },
     { id: 6, name: "Lingerie", image: productImg2, subtitle: "Comfort & Style" },
     { id: 7, name: "Activewear", image: productImg3, subtitle: "Fitness Fashion" },
-    { id: 9, name: "Bags", image: heroImage, subtitle: "Carry in Style" },
+    { id: 9, name: "Casual Wear", image: heroImage, subtitle: "Carry in Style" },
     { id: 10, name: "Jewellery", image: menCategoryImg, subtitle: "Sparkle & Shine" },
   ];
 
@@ -162,6 +162,7 @@ const Home = () => {
                   key={category.id} 
                   className={`category-scroll-card ${visibleSections.has('categories') ? 'card-animate' : ''}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
+                  onClick={() => navigate('/genz')}
                 >
                   <div className="category-scroll-image">
                     <img src={category.image} alt={category.name} />
