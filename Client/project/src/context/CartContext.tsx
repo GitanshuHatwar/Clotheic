@@ -98,7 +98,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
     setIsSyncing(true);
     const { data, error } = await supabase
-      .from<CartRow>(CART_TABLE)
+      .from(CART_TABLE)
       .select('*')
       .eq('session_id', sessionId)
       .order('id', { ascending: true });
@@ -106,7 +106,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       console.error('Failed to load cart from Supabase', error.message);
       loadCartFromLocal();
     } else if (data) {
-      const mapped = data.map(mapRowToCartItem);
+      const mapped = (data as CartRow[]).map(mapRowToCartItem);
       setCart(mapped);
       persistCartLocally(mapped);
     }

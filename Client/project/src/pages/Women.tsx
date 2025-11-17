@@ -60,9 +60,9 @@ const Women = () => {
       
       <section className="page-hero-section">
         <img src={cool4} alt="Women's Collection" className="page-hero-image" />
-        <div className="page-hero-content">
-          <h1 className="page-hero-title">Women's Collection</h1>
-          <p className="page-hero-subtitle">Discover timeless elegance and contemporary style</p>
+        <div className="page-hero-content"><br></br>
+          <h1 className="page-hero-title"></h1><br></br>
+          <p className="page-hero-subtitle"></p><br></br>
         </div>
       </section>
 

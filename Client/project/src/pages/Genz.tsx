@@ -58,9 +58,9 @@ const Genz = () => {
       
       <section className="page-hero-section">
         <img src={cool2} alt="Gen Z Collection" className="page-hero-image" />
-        <div className="page-hero-content">
-          <h1 className="page-hero-title">Gen Z Collection</h1>
-          <p className="page-hero-subtitle">Trendy and bold fashion for the new generation</p>
+        <div className="page-hero-content"> <br></br>
+          <h1 className="page-hero-title">Genz Wear</h1> <br></br>
+          <p className="page-hero-subtitle"></p> <br></br>
         </div>
       </section>
 

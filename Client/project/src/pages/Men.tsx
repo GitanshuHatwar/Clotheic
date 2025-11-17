@@ -57,7 +57,12 @@ const Men = () => {
     <div className="home-container loaded">
       <Header />
       <section className="page-hero-section">
-        
+         <br></br>
+        <div className="page-hero-content">
+          <br></br>
+          <h1></h1>
+           <br></br>
+        </div>
         <img src={cool3} alt="Men's Collection" className="page-hero-image" />
         
       </section>

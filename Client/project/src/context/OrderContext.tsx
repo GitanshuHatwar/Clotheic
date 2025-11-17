@@ -70,14 +70,14 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
     }
     setIsSyncing(true);
     const { data, error } = await supabase
-      .from<OrderRow>('orders')
+      .from('orders')
       .select('*')
       .order('order_date', { ascending: false });
     if (error) {
       console.error('Failed to load orders from Supabase', error.message);
       loadOrdersFromLocalStorage();
     } else if (data) {
-      const mapped: Order[] = data.map((row) => ({
+      const mapped: Order[] = (data as OrderRow[]).map((row) => ({
         id: row.id,
         items: row.items ?? [],
         total: row.total,
