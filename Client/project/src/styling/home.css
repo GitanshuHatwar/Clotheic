@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   background: #ffffff;
+  overflow-x: hidden;
 }
 
 /* Header Styles */
@@ -112,18 +113,37 @@
   }
 }
 
-/* Launch Banner - H&M Style */
+/* Launch Banner - Premium Style */
 .launch-banner {
   width: 100%;
-  background: #f5f5f5;
-  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  margin-bottom: 0;
+  position: relative;
 }
 
 .launch-banner-content {
   position: relative;
   max-width: 100%;
-  height: 420px;
+  height: 500px;
   overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .launch-banner-content {
+    height: 450px;
+  }
+}
+
+@media (max-width: 768px) {
+  .launch-banner-content {
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .launch-banner-content {
+    height: 300px;
+  }
 }
 
 .launch-banner-image {
@@ -225,9 +245,10 @@
 
 /* Shop by Category - Horizontal Scroll */
 .shop-categories-section {
-  padding: 2rem 0;
-  background: #ffffff;
+  padding: 3rem 0;
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
   border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 1rem;
 }
 
 .section-container-full {
@@ -299,24 +320,39 @@
 
 /* Trending Now Section */
 .trending-section {
-  padding: 3rem 2rem;
-  background: #ffffff;
+  padding: 4rem 2rem;
+  background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+  position: relative;
+}
+
+.trending-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
 }
 
 .trending-title {
-  font-size: 1.75rem;
-  font-weight: 600;
+  font-size: 2.25rem;
+  font-weight: 700;
   color: #1a1a1a;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   text-align: left;
   padding: 0 1rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .trending-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
   padding: 0 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .trending-card {
@@ -334,7 +370,7 @@
 .trending-card-image {
   position: relative;
   width: 100%;
-  height: 380px;
+  height: 420px;
   overflow: hidden;
 }
 
@@ -370,23 +406,33 @@
 
 /* Best Sellers Section */
 .best-sellers-section {
-  padding: 3rem 2rem;
-  background: #fafafa;
+  padding: 4rem 2rem;
+  background: #ffffff;
+  position: relative;
+}
+
+.best-sellers-section:nth-child(even) {
+  background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
 }
 
 .section-header-with-link {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   padding: 0 1rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .section-title-dark {
-  font-size: 1.75rem;
-  font-weight: 600;
+  font-size: 2.25rem;
+  font-weight: 700;
   color: #1a1a1a;
   margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .view-all-link-dark {
@@ -404,8 +450,10 @@
 .products-grid-full {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
   padding: 0 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .product-card-modern {
@@ -542,15 +590,18 @@
 
 /* Brands Section */
 .brands-section {
-  padding: 3rem 2rem;
-  background: #ffffff;
+  padding: 4rem 2rem;
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  position: relative;
 }
 
 .brands-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
   padding: 0 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .brand-card {
@@ -623,15 +674,18 @@
 
 /* Shop by Style Section */
 .style-section {
-  padding: 3rem 2rem;
-  background: #fafafa;
+  padding: 4rem 2rem;
+  background: #ffffff;
+  position: relative;
 }
 
 .style-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
   padding: 0 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .style-card {
@@ -706,22 +760,38 @@
 
 /* Newsletter Section */
 .newsletter-section-modern {
-  padding: 4rem 2rem;
-  background: #1a1a1a;
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.newsletter-section-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .newsletter-content-modern {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .newsletter-content-modern h2 {
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2.5rem;
+  font-weight: 700;
   margin-bottom: 1rem;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .newsletter-content-modern p {
@@ -2736,18 +2806,22 @@ html {
 
 /* Offers Banner Styles */
 .offers-banner-section {
-  margin: 4rem 0;
-  padding: 2rem 0;
+  margin: 5rem 0;
+  padding: 3rem 0;
+  position: relative;
 }
 
 .offers-banner {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
-  padding: 4rem 2rem;
+  border-radius: 16px;
+  padding: 5rem 3rem;
   text-align: center;
   color: #fff;
   position: relative;
   overflow: hidden;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
 }
 
 .offers-banner::before {
@@ -2772,10 +2846,12 @@ html {
 }
 
 .offer-content h2 {
-  font-size: 3rem;
-  font-weight: 700;
+  font-size: 3.5rem;
+  font-weight: 800;
   margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .offer-content p {
@@ -2785,37 +2861,79 @@ html {
 }
 
 .shop-now-btn {
-  padding: 1rem 2.5rem;
+  padding: 1.25rem 3rem;
   background: #fff;
   color: #667eea;
   border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-now-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(102, 126, 234, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.shop-now-btn:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 .shop-now-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35);
 }
 
 .view-all-btn {
-  padding: 0.5rem 1.5rem;
+  padding: 0.75rem 2rem;
   background: transparent;
   color: #1a1a1a;
-  border: 1px solid #1a1a1a;
-  border-radius: 4px;
-  font-weight: 500;
-  font-size: 0.9rem;
+  border: 2px solid #1a1a1a;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+}
+
+.view-all-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: #1a1a1a;
+  transition: left 0.3s ease;
+  z-index: -1;
 }
 
 .view-all-btn:hover {
-  background: #1a1a1a;
   color: #fff;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.2);
+}
+
+.view-all-btn:hover::before {
+  left: 0;
 }

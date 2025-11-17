@@ -195,6 +195,7 @@ const Home = () => {
                 key={item.id} 
                 className={`trending-card premium-card ${visibleSections.has('trending') ? 'card-fade-in' : ''}`}
                 style={{ animationDelay: `${index * 0.15}s` }}
+                onClick={() => navigate('/genz')}
               >
                 <div className="trending-card-image">
                   <img src={item.image} alt={item.name} />
@@ -251,45 +252,49 @@ const Home = () => {
             <div 
               className={`style-card style-card-large ${visibleSections.has('styles') ? 'style-card-animate' : ''}`}
               style={{ animationDelay: '0s' }}
+              onClick={() => navigate('/genz')}
             >
               <img src={productImg1} alt="Casual Wear" />
               <div className="style-card-content">
                 <h3>Casual Wear</h3>
                 <p>Everyday Comfort</p>
-                <button className="style-card-btn">Shop Now</button>
+                <button className="style-card-btn" onClick={(e) => { e.stopPropagation(); navigate('/genz'); }}>Shop Now</button>
               </div>
             </div>
             <div 
               className={`style-card ${visibleSections.has('styles') ? 'style-card-animate' : ''}`}
               style={{ animationDelay: '0.2s' }}
+              onClick={() => navigate('/genz')}
             >
               <img src={productImg2} alt="Formal Wear" />
               <div className="style-card-content">
                 <h3>Formal Wear</h3>
                 <p>Office Ready</p>
-                <button className="style-card-btn">Shop Now</button>
+                <button className="style-card-btn" onClick={(e) => { e.stopPropagation(); navigate('/genz'); }}>Shop Now</button>
               </div>
             </div>
             <div 
               className={`style-card ${visibleSections.has('styles') ? 'style-card-animate' : ''}`}
               style={{ animationDelay: '0.4s' }}
+              onClick={() => navigate('/genz')}
             >
               <img src={productImg3} alt="Party Wear" />
               <div className="style-card-content">
                 <h3>Party Wear</h3>
                 <p>Night Out</p>
-                <button className="style-card-btn">Shop Now</button>
+                <button className="style-card-btn" onClick={(e) => { e.stopPropagation(); navigate('/genz'); }}>Shop Now</button>
               </div>
             </div>
             <div 
               className={`style-card style-card-large ${visibleSections.has('styles') ? 'style-card-animate' : ''}`}
               style={{ animationDelay: '0.6s' }}
+              onClick={() => navigate('/genz')}
             >
               <img src={productImg4} alt="Ethnic Wear" />
               <div className="style-card-content">
                 <h3>Ethnic Wear</h3>
                 <p>Traditional Charm</p>
-                <button className="style-card-btn">Shop Now</button>
+                <button className="style-card-btn" onClick={(e) => { e.stopPropagation(); navigate('/genz'); }}>Shop Now</button>
               </div>
             </div>
           </div>
@@ -336,7 +341,7 @@ const Home = () => {
                   key={product.id} 
                   className={`product-card-modern ${visibleSections.has('men-featured') ? 'card-fade-in' : ''}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
-                  onClick={() => navigate(`/product/${product.id}`)}
+                  onClick={() => navigate('/genz')}
                 >
                   <div className="product-image-container">
                     <img src={product.image} alt={product.name} />
@@ -383,7 +388,7 @@ const Home = () => {
                   key={product.id} 
                   className={`product-card-modern ${visibleSections.has('women-featured') ? 'card-fade-in' : ''}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
-                  onClick={() => navigate(`/product/${product.id}`)}
+                  onClick={() => navigate('/genz')}
                 >
                   <div className="product-image-container">
                     <img src={product.image} alt={product.name} />
@@ -430,7 +435,7 @@ const Home = () => {
                   key={product.id} 
                   className={`product-card-modern ${visibleSections.has('featured') ? 'card-fade-in' : ''}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
-                  onClick={() => navigate(`/product/${product.id}`)}
+                  onClick={() => navigate('/genz')}
                 >
                   <div className="product-image-container">
                     <img src={product.image} alt={product.name} />

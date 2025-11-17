@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Notification from '../components/Notification';
 import { menImages, womenImages, genzImages } from '../assets/images';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -14,6 +15,7 @@ const ProductDetail = () => {
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [selectedSize, setSelectedSize] = useState<string>('');
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   
   // Generate price based on product ID for consistency
   const price = useMemo(() => {
@@ -50,20 +52,32 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert('Please select a size');
+      setNotification({
+        message: 'Please select a size before adding to cart',
+        type: 'error'
+      });
       return;
     }
     addToCart({ id: product.id, name: product.name, image: product.image, price }, selectedSize);
-    alert(`Added ${product.name} (Size: ${selectedSize}) to cart!`);
+    setNotification({
+      message: `✓ ${product.name} (Size: ${selectedSize}) added to cart successfully!`,
+      type: 'success'
+    });
   };
 
   const handleWishlistToggle = () => {
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
-      alert('Removed from wishlist');
+      setNotification({
+        message: 'Removed from wishlist',
+        type: 'info'
+      });
     } else {
       addToWishlist({ id: product.id, name: product.name, image: product.image, price });
-      alert('Added to wishlist');
+      setNotification({
+        message: '✓ Added to wishlist',
+        type: 'success'
+      });
     }
   };
 
@@ -168,6 +182,14 @@ const ProductDetail = () => {
       </div>
 
       <Footer />
+
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </div>
   );
 };
