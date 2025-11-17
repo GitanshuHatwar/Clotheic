@@ -16,6 +16,11 @@ import productImg2 from './products/img2.jpg';
 import productImg3 from './products/img6.jpg';
 import productImg4 from './products/img7.jpg';
 
+// Slideshow images
+import slideshowImg1 from './products/slideshow/cool.jpg';
+import slideshowImg2 from './products/slideshow/cool0.jpg';
+import slideshowImg3 from './products/slideshow/cool5.jpg';
+
 // Brand images
 import Puma from './Brands/Puma.png';
 import Pantloon from './Brands/Pantloon.png';
@@ -159,4 +164,7 @@ export const brandImages = [
 
 // Cool hero banner images for category pages
 export { cool2, cool3, cool4 };
+
+// Slideshow images array
+export const slideshowImages = [slideshowImg1, slideshowImg2, slideshowImg3];
 
