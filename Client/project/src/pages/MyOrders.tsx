@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -8,11 +8,38 @@ import '../styling/MyOrders.css';
 
 const MyOrders = () => {
   const navigate = useNavigate();
-  const { orders, isSyncing, refreshOrders } = useOrder();
+  const { orders, isSyncing, refreshOrders, cancelOrder } = useOrder();
+  const [confirmDialog, setConfirmDialog] = useState<{ isOpen: boolean; orderId: string | null }>({
+    isOpen: false,
+    orderId: null,
+  });
+  const [isCancelling, setIsCancelling] = useState(false);
 
   useEffect(() => {
     refreshOrders();
   }, [refreshOrders]);
+
+  const handleCancelClick = (orderId: string) => {
+    setConfirmDialog({ isOpen: true, orderId });
+  };
+
+  const handleConfirmCancel = async () => {
+    if (!confirmDialog.orderId) return;
+    
+    setIsCancelling(true);
+    try {
+      await cancelOrder(confirmDialog.orderId);
+      setConfirmDialog({ isOpen: false, orderId: null });
+    } catch (error) {
+      console.error('Failed to cancel order:', error);
+    } finally {
+      setIsCancelling(false);
+    }
+  };
+
+  const handleDialogClose = () => {
+    setConfirmDialog({ isOpen: false, orderId: null });
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -114,14 +141,61 @@ const MyOrders = () => {
                   <p><strong>Pincode:</strong> {order.pincode}</p>
                   <p><strong>Payment:</strong> {order.paymentMethod}</p>
                 </div>
-                <div className="order-total">
-                  <span>Total: ₹{order.total}</span>
+                <div className="order-actions">
+                  <div className="order-total">
+                    <span>Total: ₹{order.total}</span>
+                  </div>
+                  {order.status !== 'delivered' && (
+                    <button 
+                      className="cancel-order-btn" 
+                      onClick={() => handleCancelClick(order.id)}
+                    >
+                      Cancel Order
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Cancel Order Confirmation Dialog */}
+      {confirmDialog.isOpen && (
+        <div className="dialog-overlay" onClick={handleDialogClose}>
+          <div className="dialog-content" onClick={(e) => e.stopPropagation()}>
+            <div className="dialog-header">
+              <h2>Cancel Order?</h2>
+              <button className="dialog-close-btn" onClick={handleDialogClose}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <div className="dialog-body">
+              <p>Are you sure you want to cancel this order?</p>
+              <p className="dialog-warning">This action cannot be undone. The order will be removed from your account and the backend.</p>
+            </div>
+            <div className="dialog-actions">
+              <button 
+                className="dialog-btn cancel-btn" 
+                onClick={handleDialogClose}
+              >
+                Keep Order
+              </button>
+              <button 
+                className="dialog-btn delete-btn" 
+                onClick={handleConfirmCancel}
+                disabled={isCancelling}
+              >
+                {isCancelling ? 'Cancelling...' : 'Yes, Cancel Order'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

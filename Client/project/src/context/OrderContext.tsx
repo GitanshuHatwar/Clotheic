@@ -31,6 +31,7 @@ interface OrderContextType {
   refreshOrders: () => Promise<void>;
   placeOrder: (order: Omit<Order, 'id' | 'orderDate' | 'status'>) => Promise<string>;
   getOrderById: (id: string) => Order | undefined;
+  cancelOrder: (orderId: string) => Promise<void>;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -141,6 +142,26 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
     return orders.find(order => order.id === id);
   };
 
+  const cancelOrder = async (orderId: string) => {
+    setOrders(prev => {
+      const nextOrders = prev.filter(order => order.id !== orderId);
+      persistOrdersLocally(nextOrders);
+      return nextOrders;
+    });
+
+    if (supabase) {
+      const { error } = await supabase
+        .from('orders')
+        .delete()
+        .eq('id', orderId);
+      if (error) {
+        console.error('Failed to cancel order in Supabase', error.message);
+        // Reload orders on error
+        fetchOrdersFromSupabase();
+      }
+    }
+  };
+
   return (
     <OrderContext.Provider
       value={{
@@ -149,6 +170,7 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
         refreshOrders: fetchOrdersFromSupabase,
         placeOrder,
         getOrderById,
+        cancelOrder,
       }}
     >
       {children}
