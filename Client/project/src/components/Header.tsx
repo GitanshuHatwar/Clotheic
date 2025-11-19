@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -9,6 +9,9 @@ const Header = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const { getTotalItems } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchRef = useRef<HTMLDivElement | null>(null);
   const expectedDeliveryDate = useMemo(() => {
     const date = new Date();
     date.setDate(date.getDate() + 5);
@@ -26,6 +29,40 @@ const Header = () => {
   const handleNavClick = () => {
     closeMobileMenu();
   };
+
+  // Search suggestions (static + can be extended)
+  const suggestions: string[] = [
+    'boy shirt under 1000',
+    'baggy jeans for girls',
+    'crop top',
+    'baggy jeans',
+    "men's t-shirt",
+    'white jeans',
+  ];
+
+  const filteredSuggestions = suggestions.filter(s => {
+    if (!searchQuery.trim()) return true;
+    return s.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
+  const navigateToSearch = (q: string) => {
+    const query = q || searchQuery;
+    if (!query || !query.trim()) return;
+    setIsSearchOpen(false);
+    setSearchQuery('');
+    navigate(`/search?q=${encodeURIComponent(query)}`);
+  };
+
+  useEffect(() => {
+    const onDocClick = (e: MouseEvent) => {
+      const el = searchRef.current;
+      if (el && !el.contains(e.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+    if (isSearchOpen) document.addEventListener('click', onDocClick);
+    return () => document.removeEventListener('click', onDocClick);
+  }, [isSearchOpen]);
 
   return (
     <>
@@ -51,12 +88,45 @@ const Header = () => {
               )}
             </nav>
             <div className="header-actions">
-              <button className="icon-btn" aria-label="Search">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <path d="m21 21-4.35-4.35"></path>
-                </svg>
-              </button>
+              {/* Search - toggles input and suggestions */}
+              <div className="search-wrapper">
+                <button
+                  className="icon-btn search-toggle"
+                  aria-label="Search"
+                  onClick={() => setIsSearchOpen((v) => !v)}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                  </svg>
+                </button>
+                {isSearchOpen && (
+                  <div className="search-bar" ref={searchRef}>
+                    <input
+                      type="text"
+                      className="search-input"
+                      placeholder="Search products, e.g. 'baggy jeans for girls'"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') navigateToSearch(searchQuery);
+                        if (e.key === 'Escape') setIsSearchOpen(false);
+                      }}
+                    />
+                    <div className="search-suggestions">
+                      {filteredSuggestions.map((s, i) => (
+                        <div
+                          key={i}
+                          className="suggestion-item"
+                          onClick={() => navigateToSearch(s)}
+                        >
+                          {s}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
               <button 
                 className="icon-btn cart-btn" 
                 aria-label="Cart"

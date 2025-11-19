@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Notification from '../components/Notification';
-import { menImages, womenImages, genzImages } from '../assets/images';
+import { genzImages } from '../assets/images';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import '../styling/home.css';
@@ -25,7 +25,8 @@ const ProductDetail = () => {
   }, [id]);
 
   // Combine all products to find the selected one
-  const allProducts = useMemo(() => [...menImages, ...womenImages, ...genzImages], []);
+  // genzImages already contains both men and women collections, avoid duplicating arrays
+  const allProducts = useMemo(() => genzImages, []);
   const product = useMemo(() => allProducts.find(p => p.id.toString() === id), [allProducts, id]);
 
   // Get recommendations (exclude current product)
